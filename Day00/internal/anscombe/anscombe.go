@@ -27,24 +27,21 @@ func Median(num []int) float64 {
 }
 
 func Mode(numbers []int) int {
-	array := make(map[int]int)
-	for _, value := range numbers {
-		if val, ok := array[value]; ok {
-			array[value] = val + 1
-		} else {
-			array[value] = 1
+	mode := numbers[0]
+	max_count := 0
+	for _, val1 := range numbers {
+		count := 0
+		for _, val2 := range numbers {
+			if val1 == val2 {
+				count++
+			}
+		}
+		if count > max_count {
+			max_count = count
+			mode = val1
 		}
 	}
-
-	occurrence := array[numbers[0]]
-	res := numbers[0]
-	for key, value := range array {
-		if occurrence < value {
-			occurrence = value
-			res = key
-		}
-	}
-	return res
+	return mode
 }
 
 func StandartDeviation(numbers []int) float64 {
