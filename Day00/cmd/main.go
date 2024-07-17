@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	app.Call()
+	app.Main()
 }
