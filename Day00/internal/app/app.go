@@ -1,7 +1,9 @@
 package app
 
 import (
+	"Day00/internal/anscombe"
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"strconv"
@@ -13,7 +15,7 @@ const (
 	MIN_NUM = -100000
 )
 
-type Flag struct {
+type Flags struct {
 	Median            bool
 	Mean              bool
 	Mode              bool
@@ -21,6 +23,15 @@ type Flag struct {
 }
 
 func Main() {
+	var flg Flags
+	Parsing(&flg)
+	if !flg.Mean && !flg.Mode && !flg.StandartDeviation && !flg.Median {
+
+	}
+	num := Scan()
+	if len(num) > 0 {
+		Stat(num, flg)
+	}
 
 }
 
@@ -44,4 +55,27 @@ func Scan() []int {
 		res = append(res, num)
 	}
 	return res
+}
+
+func Parsing(flags *Flags) {
+	flag.BoolVar(&flags.Median, "median", false, "use median")
+	flag.BoolVar(&flags.Mean, "mean", false, "use mean")
+	flag.BoolVar(&flags.Mode, "mode", false, "use mode")
+	flag.BoolVar(&flags.StandartDeviation, "sd", false, "use sd")
+	flag.Parse()
+}
+
+func Stat(num []int, flags Flags) {
+	if flags.Mean {
+		fmt.Println(anscombe.Mean(num))
+	}
+	if flags.Median {
+		fmt.Println(anscombe.Median(num))
+	}
+	if flags.StandartDeviation {
+		fmt.Println(anscombe.StandartDeviation(num))
+	}
+	if flags.Mode {
+		fmt.Println(anscombe.Mode(num))
+	}
 }
