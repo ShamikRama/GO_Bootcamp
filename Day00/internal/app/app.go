@@ -64,15 +64,15 @@ func Parsing(flags *Flags) {
 
 func Stat(num []int, flags Flags) {
 	if flags.Mean {
-		fmt.Println(anscombe.Mean(num))
+		fmt.Printf("%.2f\n ", anscombe.Mean(num))
 	}
 	if flags.Median {
-		fmt.Println(anscombe.Median(num))
+		fmt.Printf("%.2f\n ", anscombe.Median(num))
 	}
 	if flags.StandartDeviation {
-		fmt.Println(anscombe.StandartDeviation(num))
+		fmt.Printf("%.2f\n ", anscombe.StandartDeviation(num))
 	}
 	if flags.Mode {
-		fmt.Println(anscombe.Mode(num))
+		fmt.Print(anscombe.Mode(num))
 	}
 }
