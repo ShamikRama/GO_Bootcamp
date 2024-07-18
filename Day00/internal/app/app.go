@@ -25,9 +25,6 @@ type Flags struct {
 func Main() {
 	var flg Flags
 	Parsing(&flg)
-	if !flg.Mean && !flg.Mode && !flg.StandartDeviation && !flg.Median {
-
-	}
 	num := Scan()
 	if len(num) > 0 {
 		Stat(num, flg)
