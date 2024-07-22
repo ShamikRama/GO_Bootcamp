@@ -32,7 +32,7 @@ type Cake struct {
 }
 
 type Recip struct {
-	XMLName xml.Name `xml:"recipes"`
+	XMLName xml.Name `json:"-" xml:"recipes"`
 	Cakes   []Cake   `json:"cake" xml:"cake"`
 }
 
