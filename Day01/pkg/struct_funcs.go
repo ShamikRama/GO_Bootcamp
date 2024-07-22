@@ -7,13 +7,15 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 type DBreader interface {
 	Read(filename string) (Recip, error)
 }
 
-type Conver interface {
+type Convert interface {
 	Convert(rec Recip)
 }
 
@@ -96,4 +98,37 @@ func (conv *Jsconvert) Convert(rec Recip) {
 		log.Fatal(err)
 	}
 	fmt.Println(string(data))
+}
+
+func Fileformat(filename string) (cakes Recip, err error) {
+	var reader DBreader
+	ext := strings.ToLower(filepath.Ext(filename))
+	switch ext {
+	case ".json":
+		reader = &Json{}
+	case ".xml":
+		reader = &Xml{}
+	default:
+		return
+	}
+	cakes, err = reader.Read(filename)
+	return cakes, err
+}
+
+func ConvertFile(filename string) {
+	file := filepath.Ext(filename)
+	var converter Convert
+	switch file {
+	case ".json":
+		converter = &Jsconvert{}
+	case ".xml":
+		converter = &Xmlconvert{}
+	default:
+		fmt.Println("Unsupported file format:", file)
+		return
+	}
+	cakes, err := Fileformat(filename)
+	if err == nil {
+		converter.Convert(cakes)
+	}
 }
