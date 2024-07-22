@@ -21,13 +21,13 @@ type Convert interface {
 
 type Ingredients struct {
 	Name  string `json:"ingredient_name" xml:"itemname"`
-	Count int    `json:"ingredient_count" xml:"itemcount"`
+	Count string `json:"ingredient_count" xml:"itemcount"`
 	Unit  string `json:"ingredient_unit" xml:"itemunit"`
 }
 
 type Cake struct {
 	Name       string        `json:"name" xml:"name"`
-	Time       int           `json:"time" xml:"stovetime"`
+	Time       string        `json:"time" xml:"stovetime"`
 	Ingredient []Ingredients `json:"ingredients" xml:"ingredients>item"`
 }
 
