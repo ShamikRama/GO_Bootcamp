@@ -8,4 +8,4 @@ ex00:
 
 clean00:
 	cd $(MODULE_0)
-	rm -f $(EXECUTABLE_0)
+	rm -rf $(EXECUTABLE_0)
