@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Day01/pkg"
+	pkg "Day01/pkg/dbreader"
 	"flag"
 	"log"
 )
