@@ -32,7 +32,7 @@ type Cake struct {
 }
 
 type Recip struct {
-	XMLName xml.Name `json:"-" xml:"recipes"`
+	XMLName xml.Name `json:"-" xml:"recipes"` // what is it ?
 	Cakes   []Cake   `json:"cake" xml:"cake"`
 }
 
@@ -100,6 +100,7 @@ func (conv *Jsconvert) Convert(rec Recip) {
 	fmt.Println(string(data))
 }
 
+// what the fuck
 func Fileformat(filename string) (cakes Recip, err error) {
 	var reader DBreader
 	ext := strings.ToLower(filepath.Ext(filename))
@@ -128,7 +129,8 @@ func ConvertFile(filename string) {
 		return
 	}
 	cakes, err := Fileformat(filename)
-	if err == nil {
-		converter.Convert(cakes)
+	if err != nil {
+		return
 	}
+	converter.Convert(cakes)
 }
