@@ -48,7 +48,7 @@ type Jsconvert struct {
 type Xmlconvert struct {
 }
 
-func (j *Json) Read(filename string) (rec Recip, err error) {
+func (j Json) Read(filename string) (rec Recip, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
@@ -66,7 +66,7 @@ func (j *Json) Read(filename string) (rec Recip, err error) {
 	return rec, err
 }
 
-func (x *Xml) Read(filename string) (rec Recip, err error) {
+func (x Xml) Read(filename string) (rec Recip, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return rec, err
