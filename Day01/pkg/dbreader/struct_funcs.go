@@ -100,8 +100,7 @@ func (conv *Jsconvert) Convert(rec Recip) {
 	fmt.Println(string(data))
 }
 
-// what the fuck
-func Fileformat(filename string) (cakes Recip, err error) {
+func FileformatRead(filename string) (cakes Recip, err error) {
 	var reader DBreader
 	ext := strings.ToLower(filepath.Ext(filename))
 	switch ext {
@@ -116,7 +115,7 @@ func Fileformat(filename string) (cakes Recip, err error) {
 	return cakes, err
 }
 
-func ConvertFile(filename string) {
+func ConvertfileConvert(filename string) {
 	file := filepath.Ext(filename)
 	var converter Convert
 	switch file {
@@ -128,7 +127,7 @@ func ConvertFile(filename string) {
 		fmt.Println("Unsupported file format:", file)
 		return
 	}
-	cakes, err := Fileformat(filename)
+	cakes, err := FileformatRead(filename)
 	if err != nil {
 		return
 	}
