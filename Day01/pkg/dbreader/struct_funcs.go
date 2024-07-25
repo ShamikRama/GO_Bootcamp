@@ -99,37 +99,3 @@ func (conv *Jsconvert) Convert(rec Recip) {
 	}
 	fmt.Println(string(data))
 }
-
-func FileformatRead(filename string) (cakes Recip, err error) {
-	var reader DBreader
-	ext := strings.ToLower(filepath.Ext(filename))
-	switch ext {
-	case ".json":
-		reader = &Json{}
-	case ".xml":
-		reader = &Xml{}
-	default:
-		return
-	}
-	cakes, err = reader.Read(filename)
-	return cakes, err
-}
-
-func ConvertfileConvert(filename string) {
-	file := filepath.Ext(filename)
-	var converter Convert
-	switch file {
-	case ".json":
-		converter = &Jsconvert{}
-	case ".xml":
-		converter = &Xmlconvert{}
-	default:
-		fmt.Println("Unsupported file format:", file)
-		return
-	}
-	cakes, err := FileformatRead(filename)
-	if err != nil {
-		return
-	}
-	converter.Convert(cakes)
-}
