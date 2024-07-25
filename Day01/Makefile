@@ -1,37 +1,37 @@
-MODULE_0 = DBreader/cmd
-EXECUTABLE_0 = readDB
+EX_00 = DBreader/cmd
+EXEC_00 = readDB
 
-MODULE_1 = DBcompare/cmd
-EXECUTABLE_1 = compareDB
+EX_01 = DBcompare/cmd
+EXEC_01 = compareDB
 
-MODULE_2 = DBwriter/cmd
-EXECUTABLE_2 = writeDB
+EX_02 = DBwriter/cmd
+EXEC_02 = writeDB
 
 all:
-	cd $(MODULE_0) && go build -o $(EXECUTABLE_0)
-	cd $(MODULE_1) && go build -o $(EXECUTABLE_1)
-	cd $(MODULE_2) && go build -o $(EXECUTABLE_2)
+	cd $(EX_00) && go build -o $(EXEC_00)
+	cd $(EX_01) && go build -o $(EXEC_01)
+	cd $(EX_02) && go build -o $(EXEC_02)
 
 ex00:
-	cd $(MODULE_0) && go build -o $(EXECUTABLE_0)
+	cd $(EX_00) && go build -o $(EXEC_00)
 
 ex01:
-	cd $(MODULE_1) && go build -o $(EXECUTABLE_1)
+	cd $(EX_01) && go build -o $(EXEC_01)
 
 ex02:
-	cd $(MODULE_2) && go build -o $(EXECUTABLE_2)
+	cd $(EX_02) && go build -o $(EXEC_02)
 
 
 clean00:
-	cd $(MODULE_0) && rm -rf $(EXECUTABLE_0)
+	cd $(EX_00) && rm -rf $(EXEC_00)
 
 clean01:
-	cd $(MODULE_1) && rm -rf $(EXECUTABLE_1)
+	cd $(EX_01) && rm -rf $(EXEC_01)
 
 clean02:
-	cd $(MODULE_2) && rm -rf $(EXECUTABLE_2)
+	cd $(EX_02) && rm -rf $(EXEC_02)
 
 clean:
-	cd $(MODULE_0) && rm -rf $(EXECUTABLE_0)
-	cd $(MODULE_1) && rm -rf $(EXECUTABLE_1)
-	cd $(MODULE_2) && rm -rf $(EXECUTABLE_2)
+	cd $(EX_00) && rm -rf $(EXEC_00)
+	cd $(EX_01) && rm -rf $(EXEC_01)
+	cd $(EX_02) && rm -rf $(EXEC_02)
