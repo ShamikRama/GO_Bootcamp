@@ -66,7 +66,7 @@ func CompareCakes(oldcake, newcake pkg.Recip) {
 // find time changes
 func FindTimeChanges(oldcake pkg.Cake, newcake pkg.Cake) {
 	if oldcake.Time != newcake.Time {
-		fmt.Printf("CHANGED cooking time for cake \"%s\" - \"%s\" instead of \"%s\"\n", newcake, newcake.Time, oldcake.Time)
+		fmt.Printf("CHANGED cooking time for cake \"%s\" - \"%s\" instead of \"%s\"\n", newcake.Name, newcake.Time, oldcake.Time)
 	}
 }
 

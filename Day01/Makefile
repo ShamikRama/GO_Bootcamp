@@ -7,6 +7,11 @@ EXECUTABLE_1 = compareDB
 MODULE_2 = DBwriter/cmd
 EXECUTABLE_2 = writeDB
 
+all:
+	cd $(MODULE_0) && go build -o $(EXECUTABLE_0)
+	cd $(MODULE_1) && go build -o $(EXECUTABLE_1)
+	cd $(MODULE_2) && go build -o $(EXECUTABLE_2)
+
 ex00:
 	cd $(MODULE_0) && go build -o $(EXECUTABLE_0)
 
@@ -18,13 +23,15 @@ ex02:
 
 
 clean00:
-	cd $(MODULE_0)
-	rm -rf $(EXECUTABLE_0)
+	cd $(MODULE_0) && rm -rf $(EXECUTABLE_0)
 
 clean01:
-	cd $(MODULE_1)
-	rm -rf $(MODULE_1)
+	cd $(MODULE_1) && rm -rf $(EXECUTABLE_1)
 
 clean02:
-	cd $(MODULE_2)
-	rm -rf $(MODULE_2)
+	cd $(MODULE_2) && rm -rf $(EXECUTABLE_2)
+
+clean:
+	cd $(MODULE_0) && rm -rf $(EXECUTABLE_0)
+	cd $(MODULE_1) && rm -rf $(EXECUTABLE_1)
+	cd $(MODULE_2) && rm -rf $(EXECUTABLE_2)
