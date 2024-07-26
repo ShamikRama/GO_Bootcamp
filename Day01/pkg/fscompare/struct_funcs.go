@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 )
 
 func GetFiles(filesnap string) (files []string, err error) {
@@ -28,5 +29,23 @@ func GetFiles(filesnap string) (files []string, err error) {
 }
 
 func Compare(firstsnap, secondsnap string) {
+	oldfile, err := GetFiles(firstsnap)
+	if err != nil {
+		fmt.Println("Error getting file")
+	}
+	newfile, err := GetFiles(secondsnap)
+	if err != nil {
+		fmt.Println("Error getting file")
+	}
 
+	for _, val := range oldfile {
+		if !slices.Contains(newfile, val) {
+			fmt.Print("Added:", val)
+		}
+	}
+	for _, val := range newfile {
+		if !slices.Contains(oldfile, val) {
+			fmt.Print("Removed:", val)
+		}
+	}
 }
