@@ -4,7 +4,7 @@ EXEC_00 = readDB
 EX_01 = DBcompare/cmd
 EXEC_01 = compareDB
 
-EX_02 = DBwriter/cmd
+EX_02 = FScompare/cmd
 EXEC_02 = writeDB
 
 all:
