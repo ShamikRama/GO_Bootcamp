@@ -1,43 +1,63 @@
 package ex00
 
 import (
-	pkg "FindPath02/pkg"
-	"errors"
+	"FindPath02/pkg"
+	"fmt"
 	"os"
+	"path/filepath"
 )
 
-var ErrWrongFlagsCombination = errors.New("flag -ext works only with flag -f")
-var ErrNoSuchDirectory = errors.New("no such directory")
-var ErrNoDirPassed = errors.New("no directory passed")
-
-func Noflags(fl pkg.Flags) bool {
-	return !fl.Dironly && !fl.Simonly && !fl.Fileonly
+func IterateOverEntities(arg pkg.Args, fl pkg.Flags) error {
+	return IterateDir(arg.DirPath, arg, fl)
 }
 
-func NoDirectory(arg pkg.Args) error {
-	if _, err := os.Stat(arg.DirPath); os.IsNotExist(err) {
-		return ErrNoSuchDirectory
+func IterateDir(dirpath string, arg pkg.Args, fl pkg.Flags) error {
+	entries, err := os.ReadDir(dirpath)
+	if err != nil {
+		return err
+	}
+	for _, entry := range entries {
+		info, err := entry.Info()
+		if err != nil {
+			return err
+		}
+		path := filepath.Join(dirpath, entry.Name())
+
+		switch {
+		case fl.Simonly && IsSymlink(info):
+			PrintPath(path, info)
+		case fl.Dironly && info.IsDir():
+			PrintPath(path, info)
+		case fl.FileExtonly && filepath.Ext(path) == ("."+arg.Ext):
+			PrintPath(path, info)
+		case fl.Fileonly && IsFile(info):
+			PrintPath(path, info)
+		case pkg.Noflags(fl):
+			PrintPath(path, info)
+		}
 	}
 	return nil
 }
 
-func WrongCombiantion(fl pkg.Flags) error {
-	if fl.FileExtonly && !fl.Fileonly {
-		return ErrWrongFlagsCombination
+func PrintPath(path string, info os.FileInfo) {
+	if info.Mode()&os.ModeSymlink == os.ModeSymlink {
+		targetPath, _ := os.Readlink(path)
+		file, err := os.Open(path)
+		if err == nil {
+			defer file.Close()
+		} else {
+			targetPath = "[broken]"
+		}
+		fmt.Println(path, "->", targetPath)
+	} else {
+		fmt.Println(path)
 	}
-	return nil
 }
 
-func NoDirPass(arg pkg.Args) error {
-	if arg.DirPath == "" {
-		return ErrNoDirPassed
-	}
-	return nil
+func IsFile(info os.FileInfo) bool {
+	return info.Mode().IsRegular()
 }
 
-func NotNilExt(fl pkg.Flags, arg pkg.Args) bool {
-	if arg.Ext != "" {
-		fl.FileExtonly = true
-	}
-	return fl.FileExtonly
+func IsSymlink(info os.FileInfo) bool {
+	return info.Mode()&os.ModeSymlink == os.ModeSymlink
 }
