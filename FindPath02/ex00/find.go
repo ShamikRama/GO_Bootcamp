@@ -28,6 +28,9 @@ func IterateDir(dirpath string, arg pkg.Args, fl pkg.Flags) error {
 			PrintPath(path, info)
 		case fl.Dironly && info.IsDir():
 			PrintPath(path, info)
+			if err := IterateDir(path, arg, fl); err != nil {
+				return err
+			}
 		case fl.FileExtonly && filepath.Ext(path) == ("."+arg.Ext):
 			PrintPath(path, info)
 		case fl.Fileonly && IsFile(info):
