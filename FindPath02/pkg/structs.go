@@ -23,6 +23,7 @@ func FindFlagAndArg() (fl Flags, arg Args, err error) {
 	flag.BoolVar(&fl.Simonly, "sl", false, "Only symlinks")
 	flag.BoolVar(&fl.Fileonly, "f", false, "Only filenames")
 	flag.StringVar(&arg.Ext, "ext", "", "Specification of file extension")
+	flag.StringVar(&arg.DirPath, "dir", "", "Directory path to scan")
 	flag.Parse()
 
 	if arg.Ext != "" && !fl.Fileonly {
