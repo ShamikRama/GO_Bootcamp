@@ -41,11 +41,8 @@ func IterateDir(dirpath string, arg pkg.Args, fl pkg.Flags) error {
 
 func PrintPath(path string, info os.FileInfo) {
 	if info.Mode()&os.ModeSymlink == os.ModeSymlink {
-		targetPath, _ := os.Readlink(path)
-		file, err := os.Open(path)
-		if err == nil {
-			defer file.Close()
-		} else {
+		targetPath, err := os.Readlink(path)
+		if err != nil {
 			targetPath = "[broken]"
 		}
 		fmt.Println(path, "->", targetPath)

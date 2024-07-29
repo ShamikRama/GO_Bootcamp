@@ -29,6 +29,10 @@ func FindFlagAndArg() (fl Flags, arg Args, err error) {
 		return fl, arg, ErrWrongFlagsCombination
 	}
 
+	if arg.DirPath == "" {
+		return fl, arg, ErrNoDirPassed
+	}
+
 	if _, err := os.Stat(arg.DirPath); os.IsNotExist(err) {
 		return fl, arg, ErrNoSuchDirectory
 	}

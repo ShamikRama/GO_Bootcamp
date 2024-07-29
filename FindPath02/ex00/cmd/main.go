@@ -1,16 +1,18 @@
 package main
 
 import (
-	m "FindPath02/ex00"
-	pkg "FindPath02/pkg"
-	"fmt"
+	"FindPath02/ex00"
+	"FindPath02/pkg"
+	"log"
 )
 
 func main() {
-	flag, arg, err := pkg.FindFlagAndArg()
+	fl, arg, err := pkg.FindFlagAndArg()
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-	m.IterateOverEntities(arg, flag)
+
+	if err := ex00.IterateOverEntities(arg, fl); err != nil {
+		log.Fatal(err)
+	}
 }
