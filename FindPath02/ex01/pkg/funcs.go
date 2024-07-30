@@ -75,7 +75,7 @@ func Characterscount(filename string) error {
 	charCount := 0
 	for scanner.Scan() {
 		line := scanner.Text()
-		charCount += len(line)
+		charCount += len([]rune(line))
 	}
 	if err := scanner.Err(); err != nil {
 		return err
