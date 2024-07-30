@@ -83,7 +83,3 @@ func Characterscount(filename string) error {
 	fmt.Println(charCount)
 	return nil
 }
-
-/*func isLetter(r rune) bool {
-	return unicode.IsLetter(r)
-}*/
