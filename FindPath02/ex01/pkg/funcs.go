@@ -6,25 +6,30 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"unicode"
 )
 
 func ReadFile(filename string, fl conf.Flags) {
 	if fl.WordsCount {
-		Wordcount(filename)
+		if err := Wordcount(filename); err != nil {
+			fmt.Println(err)
+		}
 	}
 	if fl.LinesCount {
-		Linecount(filename)
+		if err := Linecount(filename); err != nil {
+			fmt.Println(err)
+		}
 	}
 	if fl.CharactersCount {
-		Characterscount(filename)
+		if err := Characterscount(filename); err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
 func Wordcount(filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
@@ -45,7 +50,7 @@ func Wordcount(filename string) error {
 func Linecount(filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
@@ -63,27 +68,22 @@ func Linecount(filename string) error {
 func Characterscount(filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	charCount := 0
 	for scanner.Scan() {
 		line := scanner.Text()
-		for _, val := range line {
-			if isLetter(val) {
-				charCount++
-			}
-		}
+		charCount += len(line)
 	}
 	if err := scanner.Err(); err != nil {
 		return err
 	}
 	fmt.Println(charCount)
 	return nil
-
 }
 
-func isLetter(r rune) bool {
+/*func isLetter(r rune) bool {
 	return unicode.IsLetter(r)
-}
+}*/
