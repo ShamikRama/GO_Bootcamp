@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"errors"
@@ -10,24 +10,24 @@ import (
 var ErrNoDir = errors.New("No directiry")
 var ErrNoFile = errors.New("No file input")
 
-func Config() (directory string, filenames []string, err error) {
-	flag.StringVar(&directory, "a", "", "Directory to cp")
+func FindArgs(directory *string, filenames *[]string) (err error) {
+	flag.StringVar(directory, "a", "", "Directory to cp")
 	flag.Parse()
-	if directory == "" {
+	if *directory == "" {
 		log.Panic()
 	}
-	info, err := os.Stat(directory)
+	info, err := os.Stat(*directory)
 	if err != nil {
-		return directory, nil, err
+		return err
 	}
 	if !info.IsDir() {
 		err = ErrNoDir
-		return directory, nil, err
+		return err
 	}
-	filenames = flag.Args()
-	if filenames == nil {
+	*filenames = flag.Args()
+	if *filenames == nil {
 		err = ErrNoFile
-		return directory, nil, err
+		return err
 	}
 	return
 }
