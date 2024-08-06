@@ -11,6 +11,12 @@ import (
 	"strconv"
 )
 
+const (
+	r_w    = os.O_RDWR
+	create = os.O_CREATE
+	trunk  = os.O_TRUNC
+)
+
 func CompressFile(filepath string, filenames string) {
 	file, err := os.Open(filenames)
 	if err != nil {
@@ -25,7 +31,7 @@ func CompressFile(filepath string, filenames string) {
 
 	fullPath := CreateArchiveName(filepath, filenames, info)
 
-	archive, err := os.OpenFile(fullPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	archive, err := os.OpenFile(fullPath, r_w|create|trunk, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
