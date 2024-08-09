@@ -1,6 +1,6 @@
 package db
 
-import "LoadingData/internal/models"
+import "Data_Api/models"
 
 type Store interface {
 	GetPlaces(limit, offset int) ([]models.Place, int, error)
