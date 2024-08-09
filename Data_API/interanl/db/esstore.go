@@ -10,14 +10,16 @@ type ESstore struct {
 	client *elasticsearch.Client
 }
 
-func CreateIndex() {
+func NewESstore() (*ESstore, error) {
 	cfg := elasticsearch.Config{
 		Addresses: []string{"http://localhost:9200"},
 	}
-	client, err := elasticsearch.NewDefaultClient()
+	client, err := elasticsearch.NewClient(cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
-	index := "places"
 
+	return &ESstore{
+		client: client,
+	}, nil
 }
