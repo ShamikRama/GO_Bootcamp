@@ -1,9 +1,7 @@
 package client
 
 import (
-	"encoding/csv"
 	"log"
-	"os"
 
 	"github.com/elastic/go-elasticsearch/v8"
 )
@@ -26,24 +24,4 @@ func (c *ESclient) Newclient() *elasticsearch.Client {
 	defer info.Body.Close()
 	log.Println(info)
 	return es
-}
-
-// функция для чтения csv файла и его парсинг
-func GetDataFromFile(filename string) ([][]string, error) {
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatalf("Ошибка при открытии файла: %s", err)
-	}
-	defer file.Close()
-	reader := csv.NewReader(file)
-	reader.Comma = '\t'
-	var buf [][]string
-	for {
-		rec, err := reader.Read()
-		if err.Error() == "EOF" {
-			break
-		}
-		buf = append(buf, rec)
-	}
-	return buf, nil
 }
