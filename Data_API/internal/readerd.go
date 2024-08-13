@@ -8,6 +8,10 @@ import (
 	"os"
 )
 
+type DBReader interface {
+	ReadDB(filepath string) (interface{}, error)
+}
+
 // you can add another types and methods
 type CSVReader struct{}
 

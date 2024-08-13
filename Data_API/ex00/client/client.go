@@ -6,8 +6,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
+	"sync"
 
-	i "Data_Api/ex00/internal"
+	i "Data_Api/internal"
 
 	"github.com/elastic/go-elasticsearch/v8"
 )
@@ -61,7 +64,7 @@ func Mapping(nameIndex string, es *elasticsearch.Client) error {
 	sh.Properties.Id.Type = "long"
 	shemabytes, err := json.Marshal(sh)
 	if err != nil {
-		fmt.Println("FIFIFIF")
+		fmt.Println("Error marshalling into shemabytes")
 	}
 	req, err := http.NewRequest(http.MethodPut, url+nameIndex+"/place/_mapping", bytes.NewBuffer(shemabytes))
 	if err != nil {
@@ -79,5 +82,71 @@ func Mapping(nameIndex string, es *elasticsearch.Client) error {
 	}
 	defer resp.Body.Close()
 
+	return nil
+}
+
+// загрузка данных в es
+func pushIntoES(indexname string, idx int, line []string, es *elasticsearch.Client) (err error) {
+	id := strconv.Itoa(idx)
+
+	longitude, err := strconv.ParseFloat(line[4], 64)
+	if err != nil {
+		fmt.Printf("Error parsing to float")
+	}
+
+	latitude, err := strconv.ParseFloat(line[5], 64)
+	if err != nil {
+		fmt.Printf("Error parsing to float")
+	}
+
+	place := i.Place{
+		Address: line[2],
+		Id:      idx,
+		Location: i.Location{
+			Longitude: longitude,
+			Latitude:  latitude,
+		},
+		Name:  line[1],
+		Phone: line[3],
+	}
+
+	data, err := json.Marshal(place)
+	if err != nil {
+		return err
+	}
+
+	resp, err := es.Index(indexname, strings.NewReader(string(data)), es.Index.WithDocumentID(id))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
+
+}
+
+// заполнение базы
+func fillESDATA(indexname string, es *elasticsearch.Client, csvpath string) (err error) {
+	data := i.CSVReader{}
+	lines, err := data.ReadDB(csvpath)
+	if err != nil {
+		return nil
+	}
+	var wg sync.WaitGroup
+
+	for indx, val := range lines[1:] {
+		wg.Add(1)
+		id := indx
+		line := val
+		go func() {
+			defer wg.Done()
+			err = pushIntoES(indexname, id, line, es)
+			if err != nil {
+				fmt.Println("Error push data inro elastic:", err)
+			}
+
+		}()
+	}
+	wg.Wait()
 	return nil
 }
