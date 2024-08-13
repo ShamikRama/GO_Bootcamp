@@ -2,20 +2,19 @@ package internal
 
 import (
 	"encoding/csv"
+	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 )
 
-type ReadDB interface {
-	ReadDB()
-}
-
 // you can add another types and methods
-type CSV struct {
-}
+type CSVReader struct{}
+
+type JsonReader struct{}
 
 // function for reading DataBase
-func (c *CSV) ReadDB(filepath string) ([][]string, error) {
+func (c *CSVReader) ReadDB(filepath string) ([][]string, error) {
 	file, err := os.Open(filepath)
 	if err != nil {
 		log.Fatalf("Ошибка при открытии файла: %s", err)
@@ -26,10 +25,25 @@ func (c *CSV) ReadDB(filepath string) ([][]string, error) {
 	var buf [][]string
 	for {
 		rec, err := reader.Read()
-		if err.Error() == "EOF" {
+		if err != nil && err.Error() == "EOF" {
 			break
 		}
 		buf = append(buf, rec)
 	}
 	return buf, nil
+}
+
+func (j *JsonReader) ReadDB(filepath string) (Schema, error) {
+	buf, err := os.ReadFile(filepath)
+	if err != nil {
+		log.Fatalf("Error reading the file %s", err)
+	}
+	var s Schema
+
+	err = json.Unmarshal(buf, &s)
+	if err != nil {
+		fmt.Println("Ошибка при десериализации данных:", err)
+		return Schema{}, err
+	}
+	return s, nil
 }

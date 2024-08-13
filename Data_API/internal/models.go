@@ -1,7 +1,19 @@
 package internal
 
-type Shema struct {
-	Places Place
+type PropertiesType struct {
+	Type string `json:"type"`
+}
+
+type Properties struct {
+	Address  PropertiesType `json:"address"`
+	Id       PropertiesType `json:"id"`
+	Location PropertiesType `json:"location"`
+	Name     PropertiesType `json:"name"`
+	Phone    PropertiesType `json:"phone"`
+}
+
+type Schema struct {
+	Properties Properties `json:"properties"`
 }
 
 type Location struct {
@@ -10,9 +22,9 @@ type Location struct {
 }
 
 type Place struct {
-	ID        int      `json:"id"`
-	Name      string   `json:"string"`
-	Address   string   `json:"address"`
-	Phone     string   `json:"phone"`
-	Locations Location `json:"location"`
+	Address  string   `json:"address"`
+	Id       int      `json:"id"`
+	Location Location `json:"location"`
+	Name     string   `json:"name"`
+	Phone    string   `json:"phone"`
 }
