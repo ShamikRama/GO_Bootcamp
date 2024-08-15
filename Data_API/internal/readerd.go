@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -21,33 +20,30 @@ type JsonReader struct{}
 func (c *CSVReader) ReadDB(filepath string) ([][]string, error) {
 	file, err := os.Open(filepath)
 	if err != nil {
-		log.Fatalf("Ошибка при открытии файла: %s", err)
+		return nil, fmt.Errorf("ошибка при открытии файла: %w", err)
 	}
 	defer file.Close()
+
 	reader := csv.NewReader(file)
 	reader.Comma = '\t'
-	var buf [][]string
-	for {
-		rec, err := reader.Read()
-		if err != nil && err.Error() == "EOF" {
-			break
-		}
-		buf = append(buf, rec)
+	lines, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
 	}
-	return buf, nil
+
+	return lines, nil
 }
 
 func (j *JsonReader) ReadDB(filepath string) (Schema, error) {
 	buf, err := os.ReadFile(filepath)
 	if err != nil {
-		log.Fatalf("Error reading the file %s", err)
+		return Schema{}, fmt.Errorf("error reading the file: %w", err)
 	}
 	var s Schema
 
 	err = json.Unmarshal(buf, &s)
 	if err != nil {
-		fmt.Println("Ошибка при десериализации данных:", err)
-		return Schema{}, err
+		return Schema{}, fmt.Errorf("ошибка при десериализации данных: %w", err)
 	}
 	return s, nil
 }

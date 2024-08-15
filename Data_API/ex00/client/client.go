@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 
 	i "Data_Api/internal"
 
@@ -28,7 +27,7 @@ func GetConnectionClient() *elasticsearch.Client {
 			MaxIdleConnsPerHost: 100,
 			MaxConnsPerHost:     100,
 		},
-		Timeout: 30 * time.Second, // Увеличьте время ожидания
+		// Timeout: 30 * time.Second, // Увеличьте время ожидания
 	}
 	es, err := elasticsearch.NewClient(elasticsearch.Config{
 		Addresses: []string{url},
@@ -64,7 +63,7 @@ func Mapping(nameIndex string, es *elasticsearch.Client) error {
 		return fmt.Errorf("error reading schema: %w", err)
 	}
 	sh.Properties.Id.Type = "long"
-	shemabytes, err := json.Marshal(sh)
+	shemabytes, err := json.MarshalIndent(sh, "", "  ") // Используем json.MarshalIndent
 	if err != nil {
 		return fmt.Errorf("error marshalling schema: %w", err)
 	}
@@ -150,7 +149,7 @@ func pushIntoES(indexname string, idx int, line []string, es *elasticsearch.Clie
 		Phone: line[3],
 	}
 
-	data, err := json.Marshal(place)
+	data, err := json.MarshalIndent(place, "", "  ") // Используем json.MarshalIndent
 	if err != nil {
 		return fmt.Errorf("error marshalling place: %w", err)
 	}

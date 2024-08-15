@@ -1,30 +1,28 @@
 package internal
 
-type PropertiesType struct {
+type Schema struct {
+	Properties struct {
+		Id       Field `json:"id"`
+		Address  Field `json:"address"`
+		Location Field `json:"location"`
+		Name     Field `json:"name"`
+		Phone    Field `json:"phone"`
+	} `json:"properties"`
+}
+
+type Field struct {
 	Type string `json:"type"`
 }
 
-type Properties struct {
-	Address  PropertiesType `json:"address"`
-	Id       PropertiesType `json:"id"`
-	Location PropertiesType `json:"location"`
-	Name     PropertiesType `json:"name"`
-	Phone    PropertiesType `json:"phone"`
-}
-
-type Schema struct {
-	Properties Properties `json:"properties"`
+type Place struct {
+	Id       int      `json:"id"`
+	Address  string   `json:"address"`
+	Location Location `json:"location"`
+	Name     string   `json:"name"`
+	Phone    string   `json:"phone"`
 }
 
 type Location struct {
 	Longitude float64 `json:"lon"`
 	Latitude  float64 `json:"lat"`
-}
-
-type Place struct {
-	Address  string   `json:"address"`
-	Id       int      `json:"id"`
-	Location Location `json:"location"`
-	Name     string   `json:"name"`
-	Phone    string   `json:"phone"`
 }

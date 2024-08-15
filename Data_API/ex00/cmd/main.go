@@ -6,21 +6,19 @@ import (
 )
 
 func main() {
-	indexName := "places"
-
 	es := c.GetConnectionClient()
 
-	err := c.CreateIndex(indexName, es)
+	err := c.CreateIndex("places", es)
 	if err != nil {
 		fmt.Print(err)
 	}
 
-	err1 := c.Mapping(indexName, es)
+	err1 := c.Mapping("places", es)
 	if err1 != nil {
 		fmt.Print(err)
 	}
 
-	err2 := c.FillESDATA(indexName, es, "Data_Api/ex00/cmd/data.csv")
+	err2 := c.FillData("places", es, "data.csv")
 	if err2 != nil {
 		fmt.Print(err)
 	}
