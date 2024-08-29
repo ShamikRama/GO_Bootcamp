@@ -20,12 +20,12 @@
 </ul>
 <div>
     {{if gt .PageNum 1}}
-    <a href="/?page={{.PrevPage}}">Предыдущая страница</a>
+    <a href="/?page={{.PrevPage}}">Previous</a>
     {{end}}
     {{if lt .PageNum .TotalPage}}
-    <a href="/?page={{.NextPage}}">Следующая страница</a>
+    <a href="/?page={{.NextPage}}">Next</a>
     {{end}}
-    <a href="/?page={{.TotalPage}}">Последняя страница</a>
+    <a href="/?page={{.TotalPage}}">Last</a>
 </div>
 </body>
 </html>
